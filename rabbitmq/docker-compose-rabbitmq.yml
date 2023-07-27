@@ -1,13 +1,36 @@
+#version: '3'
+#services:
+#  rabbitmq:
+#    image: rabbitmq:3.12.0-management
+#    container_name: rabbitmqlearn
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+#    volumes:
+#      - ./rabbitmq_data:/var/lib/rabbitmq
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=kien
+#      - RABBITMQ_DEFAULT_PASS=123
+
 version: '3'
+
 services:
   rabbitmq:
     image: rabbitmq:3.12.0-management
-    container_name: rabbitmqlearn
+    container_name: rabbitmq
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"   # RabbitMQ standard AMQP port
+      - "15672:15672" # RabbitMQ management plugin port for the web interface
     volumes:
-      - ./rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
     environment:
-      - RABBITMQ_DEFAULT_USER=kien
-      - RABBITMQ_DEFAULT_PASS=123
+      - RABBITMQ_DEFAULT_USER=kien        # Replace with your desired username
+      - RABBITMQ_DEFAULT_PASS=123    # Replace with your desired password
+    networks:
+      - my_network
+
+volumes:
+  rabbitmq_data:
+
+networks:
+  my_network:

@@ -25,4 +25,14 @@ public class QueueConfig {
     public Queue queueHrAccounting() {
         return new Queue("q.hr.accounting");
     }
+
+    @Bean
+    public Queue queuePictureImage() {
+        return new Queue("q.picture.image");
+    }
+
+    @Bean
+    public Queue queuePictureVector() {
+        return new Queue("q.picture.vector");
+    }
 }
