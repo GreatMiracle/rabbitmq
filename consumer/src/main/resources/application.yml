@@ -1,0 +1,11 @@
+
+server:
+  port: 8087
+
+# RabbitMQ connection properties
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:kien}
+    password: ${RABBITMQ_PASSWORD:123}
