@@ -39,4 +39,29 @@ public class BindingConfig {
     public Binding bindingImgSVG() {
         return BindingBuilder.bind(queueConfig.queueHrMarketing()).to(exchangeConfig.directExchangePicture()).with("svg");
     }
+
+    @Bean
+    public Binding bindingTopicImgPNG() {
+        return BindingBuilder.bind(queueConfig.queuePictureImage()).to(exchangeConfig.topicExchangePicture()).with("*.*.png");
+    }
+
+    @Bean
+    public Binding bindingTopicImgJPG() {
+        return BindingBuilder.bind(queueConfig.queuePictureImage()).to(exchangeConfig.topicExchangePicture()).with("#.jpg");
+    }
+
+    @Bean
+    public Binding bindingTopicImgSVG() {
+        return BindingBuilder.bind(queueConfig.queuePictureVector()).to(exchangeConfig.topicExchangePicture()).with("*.*.svg");
+    }
+
+    @Bean
+    public Binding bindingTopicImgFilterMobile() {
+        return BindingBuilder.bind(queueConfig.queuePictureFilter()).to(exchangeConfig.topicExchangePicture()).with("mobile.#");
+    }
+
+    @Bean
+    public Binding bindingTopicImgLog() {
+        return BindingBuilder.bind(queueConfig.queuePictureLog()).to(exchangeConfig.topicExchangePicture()).with("*.large.svg");
+    }
 }

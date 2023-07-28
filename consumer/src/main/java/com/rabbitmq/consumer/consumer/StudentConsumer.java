@@ -1,12 +1,14 @@
 package com.rabbitmq.consumer.consumer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HelloRabbitConsumer {
+@Slf4j
+public class StudentConsumer {
     @RabbitListener(queues = "my-student")
     public void listen(String message) {
-        System.out.println("Consuming " + message);
+        log.info("Student sonsuming : {}", message);
     }
 }

@@ -1,7 +1,9 @@
-package com.rabbitmq.entity;
+package com.rabbitmq.library.message;
 
 import lombok.AccessLevel;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;

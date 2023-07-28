@@ -35,4 +35,19 @@ public class QueueConfig {
     public Queue queuePictureVector() {
         return new Queue("q.picture.vector");
     }
+
+    @Bean
+    public Queue queuePictureFilter() {
+        return new Queue("q.picture.filter");
+    }
+
+    @Bean
+//    public Queue queuePictureLog() {
+//        return new Queue("q.picture.log");
+//    }
+    public Queue queuePictureLog() {
+        return new Queue("${spring.rabbitmq.queue.picture.log}");
+    }
+
+
 }

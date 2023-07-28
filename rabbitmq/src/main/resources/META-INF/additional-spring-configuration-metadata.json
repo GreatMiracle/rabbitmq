@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "spring.rabbitmq.queue.picture.filter",
+      "type": "java.lang.String",
+      "description": "Description for spring.rabbitmq.queue.picture.filter."
+    },
+    {
+      "name": "spring.rabbitmq.queue.picture.image",
+      "type": "java.lang.String",
+      "description": "Description for spring.rabbitmq.queue.picture.image."
+    },
+    {
+      "name": "spring.rabbitmq.queue.picture.vector",
+      "type": "java.lang.String",
+      "description": "Description for spring.rabbitmq.queue.picture.vector."
+    },
+    {
+      "name": "spring.rabbitmq.queue.picture.log",
+      "type": "java.lang.String",
+      "description": "Description for spring.rabbitmq.queue.picture.log."
+    }
+  ] }

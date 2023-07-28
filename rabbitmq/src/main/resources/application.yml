@@ -15,3 +15,20 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:kien}
     password: ${RABBITMQ_PASSWORD:123}
+    queue:
+      picture:
+        filter: q.picture.filter
+        image: q.picture.image
+        vector: q.picture.vector
+        log: q.picture.log
+      hr:
+        accounting: q.hr.accounting
+        marketing: q.hr.marketing
+      my:
+        queue: my-queue
+        student: my-student
+    exchange:
+      x:
+        hr: x.hr
+        picture: x.picture
+        picture2: x.picture2
