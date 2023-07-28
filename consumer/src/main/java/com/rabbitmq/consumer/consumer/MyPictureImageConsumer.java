@@ -1,0 +1,24 @@
+package com.rabbitmq.consumer.consumer;
+
+import com.rabbitmq.library.message.Picture;
+import com.rabbitmq.library.utils.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+//@Component
+@Slf4j
+public class MyPictureImageConsumer {
+
+    @RabbitListener(queues = "q.mypicture.image")
+    public void listen(String message){
+        var p = JsonUtils.convertJsonToObject(message, Picture.class);
+
+        if (p.getSize() > 9000) {
+            throw new IllegalArgumentException("Picture size too large : " + p);
+        }
+
+        log.info("On image : {}", p.toString());
+    }
+
+}

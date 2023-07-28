@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rabbitmq.library.message.Picture;
 //import com.rabbitmq.producer.MessageSender;
 //import com.rabbitmq.producer.PictureProducer;
+import com.rabbitmq.producer.MyPictureProducer;
 import com.rabbitmq.producer.PictureProducerTwo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,8 @@ public class RabbitmqApplication implements CommandLineRunner {
 
 //    PictureProducer pictureProducer;
 //    MessageSender messageSender;
-    PictureProducerTwo pictureProducerTwo;
+//    PictureProducerTwo pictureProducerTwo;
+    MyPictureProducer myPictureProducer;
 
     List<String> SOURCES = List.of("mobile", "web");
     List<String> TYPES = List.of("jpg", "png", "svg");
@@ -62,13 +64,15 @@ public class RabbitmqApplication implements CommandLineRunner {
         for (int i = 0; i < 10; i++) {
             var p = Picture.builder()
                     .name("Picture " + i)
-                    .size(ThreadLocalRandom.current().nextLong(1, 10001))
+//                    .size(ThreadLocalRandom.current().nextLong(1, 10001))
+                    .size(ThreadLocalRandom.current().nextLong(9001, 10001))
                     .source(SOURCES.get(i % SOURCES.size()))
                     .type(TYPES.get(i % TYPES.size()))
                     .build();
 
 //            pictureProducer.sendMessage(p);
-            pictureProducerTwo.sendMessage(p);
+//            pictureProducerTwo.sendMessage(p);
+            myPictureProducer.sendMessage(p);
         }
 
     }

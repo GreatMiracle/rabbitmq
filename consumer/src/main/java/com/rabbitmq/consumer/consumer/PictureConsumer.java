@@ -16,14 +16,14 @@ public class PictureConsumer {
         log.info("On filter : {}", p.toString());
     }
 
-    @RabbitListener(queues = "q.picture.image")
-    public void listenPictureImageConsumer(String message){
-        var p = JsonUtils.convertJsonToObject(message, Picture.class);
-        log.info("On image : {}", p.toString());
-    }
+//    @RabbitListener(queues = "q.picture.image")
+//    public void listenPictureImageConsumer(String message){
+//        var p = JsonUtils.convertJsonToObject(message, Picture.class);
+//        log.info("On image : {}", p.toString());
+//    }
 
 
-    @RabbitListener(queues = "${spring.rabbitmq.queue.picture.log}")
+    @RabbitListener(queues = "q.picture.log")
     public void listenPictureLogConsumer(String message) {
         var p = JsonUtils.convertJsonToObject(message, Picture.class);
         log.info("On log : {}", p.toString());

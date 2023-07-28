@@ -25,4 +25,15 @@ public class ExchangeConfig {
     public TopicExchange topicExchangePicture() {
         return new TopicExchange("x.picture2");
     }
+
+    @Bean
+    public FanoutExchange fanoutExchangeMyPicture() {
+        return new FanoutExchange("x.mypicture");
+    }
+
+
+    @Bean
+    public FanoutExchange fanoutExchangeMyPictureDLX() {
+        return new FanoutExchange("x.mypicture.dlx");
+    }
 }

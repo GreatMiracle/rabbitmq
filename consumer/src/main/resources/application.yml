@@ -39,3 +39,8 @@ spring:
         hr: x.hr
         picture: x.picture
         picture2: x.picture2
+  listener:
+    direct:
+      acknowledge-mode: manual
+    simple:
+      acknowledge-mode: manual

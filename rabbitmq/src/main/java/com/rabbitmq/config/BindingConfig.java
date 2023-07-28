@@ -64,4 +64,19 @@ public class BindingConfig {
     public Binding bindingTopicImgLog() {
         return BindingBuilder.bind(queueConfig.queuePictureLog()).to(exchangeConfig.topicExchangePicture()).with("*.large.svg");
     }
+
+//    @Bean
+//    public Binding bindingFanoutMyPictureImg() {
+//        return BindingBuilder.bind(queueConfig.queueMyPictureImage()).to(exchangeConfig.fanoutExchangeMyPicture());
+//    }
+
+    @Bean
+    public Binding bindingFanoutMyPictureImgDLX() {
+        return BindingBuilder.bind(queueConfig.queueMyPictureImageDLX()).to(exchangeConfig.fanoutExchangeMyPictureDLX());
+    }
+
+        @Bean
+    public Binding bindingFanoutMyPictureImg() {
+        return BindingBuilder.bind(queueConfig.queueMyPictureImageDLXArg()).to(exchangeConfig.fanoutExchangeMyPicture());
+    }
 }
