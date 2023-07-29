@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.io.IOException;
 import java.util.List;
 
 public class JsonUtils {
@@ -18,6 +19,17 @@ public class JsonUtils {
         }
         return null;
     }
+
+    public static <T> T convertByteToObject(byte[] json, Class<T> objectType) {
+        ObjectMapper objectMapper = getObjectMapper();
+        try {
+            return objectMapper.readValue(json, objectType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static <T> List<T> convertJsonToList(String json, Class<T> elementType) {
         ObjectMapper objectMapper = getObjectMapper();

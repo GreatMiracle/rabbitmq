@@ -6,6 +6,7 @@ import com.rabbitmq.library.message.Picture;
 //import com.rabbitmq.producer.PictureProducer;
 import com.rabbitmq.producer.MyPictureProducer;
 import com.rabbitmq.producer.PictureProducerTwo;
+import com.rabbitmq.producer.RetryPictureProducer;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,8 @@ public class RabbitmqApplication implements CommandLineRunner {
 //    PictureProducer pictureProducer;
 //    MessageSender messageSender;
 //    PictureProducerTwo pictureProducerTwo;
-    MyPictureProducer myPictureProducer;
+//    MyPictureProducer myPictureProducer;
+    RetryPictureProducer retryPictureProducer;
 
     List<String> SOURCES = List.of("mobile", "web");
     List<String> TYPES = List.of("jpg", "png", "svg");
@@ -72,7 +74,8 @@ public class RabbitmqApplication implements CommandLineRunner {
 
 //            pictureProducer.sendMessage(p);
 //            pictureProducerTwo.sendMessage(p);
-            myPictureProducer.sendMessage(p);
+//            myPictureProducer.sendMessage(p);
+            retryPictureProducer.sendMessage(p);
         }
 
     }

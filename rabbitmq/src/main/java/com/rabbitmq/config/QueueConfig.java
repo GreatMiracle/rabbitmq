@@ -60,9 +60,16 @@ public class QueueConfig {
     @Bean
     public Queue queueMyPictureImageDLXArg() {
         return QueueBuilder.durable("q.mypicture.image")
-                .withArgument("x-dead-letter-exchange", "q.mypicture.dlx")
+                .withArgument("x-dead-letter-exchange", "x.mypicture.dlx")
                 .build();
     }
 
+    @Bean
+    public Queue queueMyPictureImageTTLArg() {
+        return QueueBuilder.durable("q.mypicture.image-ttl")
+                .withArgument("x-message-ttl", 5000)
+                .withArgument("x-dead-letter-exchange", "x.mypicture.dlx")
+                .build();
+    }
 
 }

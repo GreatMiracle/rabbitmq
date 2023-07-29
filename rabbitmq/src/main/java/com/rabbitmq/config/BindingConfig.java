@@ -79,4 +79,9 @@ public class BindingConfig {
     public Binding bindingFanoutMyPictureImg() {
         return BindingBuilder.bind(queueConfig.queueMyPictureImageDLXArg()).to(exchangeConfig.fanoutExchangeMyPicture());
     }
+
+    @Bean
+    public Binding bindingFanoutMyPictureImgTTL() {
+        return BindingBuilder.bind(queueConfig.queueMyPictureImageTTLArg()).to(exchangeConfig.fanoutExchangeMyPicture());
+    }
 }

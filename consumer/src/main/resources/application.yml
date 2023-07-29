@@ -22,6 +22,11 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:kien}
     password: ${RABBITMQ_PASSWORD:123}
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual
     queue:
       picture:
         filter: q.picture.filter
@@ -39,8 +44,3 @@ spring:
         hr: x.hr
         picture: x.picture
         picture2: x.picture2
-  listener:
-    direct:
-      acknowledge-mode: manual
-    simple:
-      acknowledge-mode: manual
