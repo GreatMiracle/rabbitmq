@@ -15,6 +15,13 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:kien}
     password: ${RABBITMQ_PASSWORD:123}
+#    simple:
+#      retry:
+#        enabled: true
+#        initial-interval: 3s
+#        max-interval: 10s
+#        max-attempts: 5
+#        multiplier: 2
     queue:
       picture:
         filter: q.picture.filter

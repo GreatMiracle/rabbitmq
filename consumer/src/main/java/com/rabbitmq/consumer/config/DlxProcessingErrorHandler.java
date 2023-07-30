@@ -59,6 +59,9 @@ public class DlxProcessingErrorHandler {
     @NonNull
     private String deadExchangeName;
 
+    @NonNull
+    private String routingKey;
+
     private int maxRetryCount = 3;
 
     /**
@@ -80,6 +83,50 @@ public class DlxProcessingErrorHandler {
         }
 
         this.deadExchangeName = deadExchangeName;
+    }
+
+
+    /**
+     * Constructor. Will retry for n times (default is 3) and on the next retry will
+     * consider message as dead, put it on dead exchange with given
+     * <code>dlxExchangeName</code> and <code>routingKey</code>
+     *
+     * @param deadExchangeName dead exchange name. Not a dlx for work queue, but
+     *                         exchange name for really dead message (wont processed
+     *                         antmore).
+     * @param routingKey       dead letter routing key
+     * @throws IllegalArgumentException if <code>dlxExchangeName</code> or
+     *                                  <code>dlxRoutingKey</code> is null or empty.
+     */
+    public DlxProcessingErrorHandler(String deadExchangeName, String routingKey) throws IllegalArgumentException {
+        super();
+
+        if (StringUtils.isAnyEmpty(deadExchangeName, routingKey)) {
+            throw new IllegalArgumentException("Must define dlx exchange name and routing key");
+        }
+
+        this.deadExchangeName = deadExchangeName;
+        this.routingKey = routingKey;
+    }
+
+    /**
+     * Constructor. Will retry for <code>maxRetryCount</code> times and on the next
+     * retry will consider message as dead, put it on dead exchange with given
+     * <code>dlxExchangeName</code> and <code>routingKey</code>
+     *
+     * @param deadExchangeName dead exchange name. Not a dlx for work queue, but
+     *                         exchange name for really dead message (wont processed
+     *                         antmore).
+     * @param maxRetryCount    number of retry before message considered as dead (0
+     *                         >= <code> maxRetryCount</code> >= 1000). If set less
+     *                         than 0, will always retry
+     * @throws IllegalArgumentException if <code>dlxExchangeName</code> or
+     *                                  <code>dlxRoutingKey</code> is null or empty.
+     */
+
+    public DlxProcessingErrorHandler(String deadExchangeName, String routingKey, int maxRetryCount) {
+        this(deadExchangeName, routingKey);
+        setMaxRetryCount(maxRetryCount);
     }
 
     /**
@@ -108,6 +155,10 @@ public class DlxProcessingErrorHandler {
 
     public int getMaxRetryCount() {
         return maxRetryCount;
+    }
+
+    public String getRoutingKey() {
+        return routingKey;
     }
 
     /**
@@ -146,7 +197,45 @@ public class DlxProcessingErrorHandler {
             log.warn("[HANDLER-FAILED] Error at " + new Date() + " on retry " + rabbitMqHeader.getFailedRetryCount()
                     + " for message " + message);
         }
+        return false;
+    }
 
+    /**
+     * Handle AMQP message consume error. This default implementation will put
+     * message to dead letter exchange for <code>maxRetryCount</code> times, thus
+     * two variables are required when creating this object:
+     * <code>dlxExchangeName</code> and <code>dlxRoutingKey</code>. <br/>
+     * <code>maxRetryCount</code> is 3 by default, but you can set it using
+     * <code>setMaxRetryCount(int)</code>
+     *
+     * @param message AMQP message that caused error
+     * @param channel channel for AMQP message
+     * @param message delivery tag
+     * @return <code>true</code> if error handler works sucessfully,
+     *         <code>false</code> otherwise
+     */
+    public boolean handleErrorProcessingMessageWithRoutingKey(Message message, Channel channel) {
+        var rabbitMqHeader = new RabbitmqHeader(message.getMessageProperties().getHeaders());
+
+        try {
+            if (rabbitMqHeader.getFailedRetryCount() >= maxRetryCount) {
+                // publish to dead and ack
+                log.warn("[DEAD] Error at " + new Date() + " on retry " + rabbitMqHeader.getFailedRetryCount()
+                        + " for message " + message);
+
+                channel.basicPublish(getDeadExchangeName(), getRoutingKey(), null, message.getBody());
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            } else {
+                log.debug("[REQUEUE] Error at " + new Date() + " on retry " + rabbitMqHeader.getFailedRetryCount()
+                        + " for message " + message);
+
+                channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+            }
+            return true;
+        } catch (IOException e) {
+            log.warn("[HANDLER-FAILED] Error at " + new Date() + " on retry " + rabbitMqHeader.getFailedRetryCount()
+                    + " for message " + message);
+        }
         return false;
     }
 
